@@ -1,0 +1,1485 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Админ-панель: Обновление прайсов</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .header {
+            background: white;
+            border-radius: 20px 20px 0 0;
+            padding: 30px;
+            text-align: center;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .header::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(90deg, #667eea, #764ba2, #ff6b6b, #4ecdc4);
+        }
+
+        .header h1 {
+            color: #333;
+            font-size: 32px;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+        }
+
+        .header h1 span {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            font-size: 14px;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-weight: 500;
+        }
+
+        .header p {
+            color: #666;
+            font-size: 16px;
+        }
+
+        .brand-tabs {
+            display: flex;
+            gap: 10px;
+            justify-content: center;
+            margin-top: 20px;
+        }
+
+        .brand-tab {
+            padding: 12px 30px;
+            border-radius: 30px;
+            background: #f1f3f5;
+            color: #495057;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            border: 2px solid transparent;
+        }
+
+        .brand-tab.active {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.3);
+        }
+
+        .brand-tab.tmz.active {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+        }
+
+        .brand-tab.yamz.active {
+            background: linear-gradient(135deg, #ff6b6b, #ee5a24);
+        }
+
+        .brand-tab.yazda.active {
+            background: linear-gradient(135deg, #4ecdc4, #45b7d1);
+        }
+
+        .status-bar {
+            background: #f8f9fa;
+            padding: 20px 30px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid #e9ecef;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+
+        .status-info {
+            display: flex;
+            gap: 30px;
+            flex-wrap: wrap;
+        }
+
+        .status-item {
+            text-align: center;
+            min-width: 120px;
+        }
+
+        .status-label {
+            font-size: 12px;
+            color: #6c757d;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 5px;
+        }
+
+        .status-value {
+            font-size: 28px;
+            font-weight: 700;
+            color: #28a745;
+            line-height: 1.2;
+        }
+
+        .status-value span {
+            font-size: 14px;
+            color: #6c757d;
+            font-weight: 400;
+        }
+
+        .refresh-btn {
+            background: white;
+            border: 1px solid #dee2e6;
+            padding: 10px 20px;
+            border-radius: 10px;
+            cursor: pointer;
+            font-size: 14px;
+            color: #495057;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .refresh-btn:hover {
+            background: #e9ecef;
+            border-color: #adb5bd;
+            transform: translateY(-2px);
+        }
+
+        .main-content {
+            background: white;
+            border-radius: 0 0 20px 20px;
+            padding: 30px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+        }
+
+        .info-banner {
+            background: linear-gradient(135deg, #667eea10, #764ba210);
+            border-left: 4px solid #667eea;
+            padding: 15px 20px;
+            border-radius: 12px;
+            margin-bottom: 25px;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            flex-wrap: wrap;
+        }
+
+        .info-icon {
+            background: #667eea;
+            color: white;
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 18px;
+            flex-shrink: 0;
+        }
+
+        .info-text {
+            flex: 1;
+        }
+
+        .info-text strong {
+            color: #333;
+            display: block;
+            margin-bottom: 5px;
+            font-size: 16px;
+        }
+
+        .info-text p {
+            color: #666;
+            font-size: 14px;
+        }
+
+        .upload-section {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 20px;
+            margin-bottom: 25px;
+        }
+
+        .upload-card {
+            background: #f8f9fa;
+            border-radius: 16px;
+            padding: 20px;
+            transition: all 0.3s ease;
+            border: 2px solid transparent;
+        }
+
+        .upload-card.tmz {
+            border-color: #667eea20;
+        }
+
+        .upload-card.yamz {
+            border-color: #ff6b6b20;
+        }
+
+        .upload-card.yazda {
+            border-color: #4ecdc420;
+        }
+
+        .upload-card.tmz:hover {
+            border-color: #667eea;
+            background: #f0f3ff;
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px rgba(102, 126, 234, 0.2);
+        }
+
+        .upload-card.yamz:hover {
+            border-color: #ff6b6b;
+            background: #fff0f0;
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px rgba(255, 107, 107, 0.2);
+        }
+
+        .upload-card.yazda:hover {
+            border-color: #4ecdc4;
+            background: #f0fcfc;
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px rgba(78, 205, 196, 0.2);
+        }
+
+        .card-header {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 20px;
+        }
+
+        .card-icon {
+            width: 48px;
+            height: 48px;
+            border-radius: 14px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+        }
+
+        .upload-card.tmz .card-icon {
+            background: linear-gradient(135deg, #667eea20, #667eea40);
+            color: #667eea;
+        }
+
+        .upload-card.yamz .card-icon {
+            background: linear-gradient(135deg, #ff6b6b20, #ff6b6b40);
+            color: #ff6b6b;
+        }
+
+        .upload-card.yazda .card-icon {
+            background: linear-gradient(135deg, #4ecdc420, #4ecdc440);
+            color: #4ecdc4;
+        }
+
+        .card-title {
+            flex: 1;
+        }
+
+        .card-title h3 {
+            color: #333;
+            font-size: 16px;
+            margin-bottom: 4px;
+        }
+
+        .card-title p {
+            color: #666;
+            font-size: 12px;
+        }
+
+        .file-input-wrapper {
+            position: relative;
+            margin-top: 15px;
+        }
+
+        .file-input-wrapper input[type="file"] {
+            position: absolute;
+            opacity: 0;
+            width: 100%;
+            height: 100%;
+            cursor: pointer;
+            z-index: 2;
+        }
+
+        .file-input-button {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            padding: 14px;
+            background: white;
+            border: 2px dashed #ced4da;
+            border-radius: 12px;
+            color: #495057;
+            font-size: 14px;
+            transition: all 0.3s;
+            pointer-events: none;
+        }
+
+        .upload-card.tmz .file-input-wrapper:hover .file-input-button {
+            border-color: #667eea;
+            color: #667eea;
+            background: #f0f3ff;
+        }
+
+        .upload-card.yamz .file-input-wrapper:hover .file-input-button {
+            border-color: #ff6b6b;
+            color: #ff6b6b;
+            background: #fff0f0;
+        }
+
+        .upload-card.yazda .file-input-wrapper:hover .file-input-button {
+            border-color: #4ecdc4;
+            color: #4ecdc4;
+            background: #f0fcfc;
+        }
+
+        .file-input-button i {
+            font-size: 20px;
+        }
+
+        .file-status {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-top: 10px;
+            padding: 10px;
+            background: white;
+            border-radius: 10px;
+            border: 1px solid #e9ecef;
+            max-height: 100px;
+            overflow-y: auto;
+        }
+
+        .file-status.active {
+            border-color: #28a745;
+            background: #f0fff4;
+        }
+
+        .file-list {
+            flex: 1;
+            font-size: 12px;
+        }
+
+        .file-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 4px 0;
+            border-bottom: 1px solid #e9ecef;
+        }
+
+        .file-item:last-child {
+            border-bottom: none;
+        }
+
+        .file-name {
+            color: #333;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            max-width: 150px;
+        }
+
+        .file-size {
+            font-size: 11px;
+            color: #666;
+            margin-left: 8px;
+        }
+
+        .remove-file {
+            color: #dc3545;
+            cursor: pointer;
+            padding: 2px 6px;
+            border-radius: 4px;
+            transition: all 0.3s;
+            font-size: 14px;
+            margin-left: 8px;
+        }
+
+        .remove-file:hover {
+            background: #dc354520;
+        }
+
+        .file-format {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin-top: 12px;
+            font-size: 11px;
+            color: #868e96;
+            padding: 8px 12px;
+            background: #e9ecef;
+            border-radius: 8px;
+        }
+
+        .file-format code {
+            background: white;
+            padding: 2px 6px;
+            border-radius: 4px;
+            color: #495057;
+            font-family: monospace;
+        }
+
+        .action-buttons {
+            display: flex;
+            gap: 15px;
+            margin: 30px 0;
+            flex-wrap: wrap;
+        }
+
+        .btn {
+            flex: 1;
+            min-width: 160px;
+            padding: 16px 24px;
+            border: none;
+            border-radius: 14px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3);
+        }
+
+        .btn-primary:hover:not(:disabled) {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(102, 126, 234, 0.4);
+        }
+
+        .btn-secondary {
+            background: #e9ecef;
+            color: #495057;
+        }
+
+        .btn-secondary:hover:not(:disabled) {
+            background: #dee2e6;
+            transform: translateY(-3px);
+        }
+
+        .btn-danger {
+            background: #dc3545;
+            color: white;
+        }
+
+        .btn-danger:hover:not(:disabled) {
+            background: #c82333;
+            transform: translateY(-3px);
+        }
+
+        .btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .progress-container {
+            margin: 25px 0;
+            display: none;
+        }
+
+        .progress-bar {
+            width: 100%;
+            height: 14px;
+            background: #e9ecef;
+            border-radius: 7px;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #667eea, #764ba2, #ff6b6b, #4ecdc4);
+            width: 0%;
+            transition: width 0.3s ease;
+            border-radius: 7px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .progress-fill::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
+            animation: shimmer 1.5s infinite;
+        }
+
+        @keyframes shimmer {
+            0% { transform: translateX(-100%); }
+            100% { transform: translateX(100%); }
+        }
+
+        .progress-text {
+            text-align: center;
+            margin-top: 12px;
+            color: #495057;
+            font-size: 14px;
+            font-weight: 500;
+        }
+
+        .log-container {
+            background: #1a1a2e;
+            color: #e0e0e0;
+            padding: 20px;
+            border-radius: 16px;
+            font-family: 'JetBrains Mono', 'Fira Code', monospace;
+            font-size: 13px;
+            height: 280px;
+            overflow-y: auto;
+            margin: 25px 0;
+            display: none;
+            border: 1px solid #2d3748;
+            box-shadow: inset 0 0 20px rgba(0,0,0,0.5);
+        }
+
+        .log-entry {
+            margin: 8px 0;
+            line-height: 1.5;
+            border-bottom: 1px solid #2d3748;
+            padding-bottom: 8px;
+            display: flex;
+            align-items: flex-start;
+            gap: 12px;
+        }
+
+        .log-time {
+            color: #718096;
+            font-size: 11px;
+            min-width: 70px;
+            font-family: monospace;
+        }
+
+        .log-message {
+            word-break: break-word;
+            flex: 1;
+        }
+
+        .log-icon {
+            font-size: 14px;
+            min-width: 20px;
+        }
+
+        .log-entry.success .log-message {
+            color: #68d391;
+        }
+
+        .log-entry.error .log-message {
+            color: #fc8181;
+        }
+
+        .log-entry.info .log-message {
+            color: #63b3ed;
+        }
+
+        .log-entry.warning .log-message {
+            color: #f6ad55;
+        }
+
+        .stats-container {
+            background: linear-gradient(135deg, #f0fff4, #e6fffa);
+            border: 1px solid #9ae6b4;
+            border-radius: 20px;
+            padding: 25px;
+            margin: 25px 0;
+            display: none;
+        }
+
+        .stats-title {
+            color: #22543d;
+            font-size: 20px;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 20px;
+        }
+
+        .stat-card {
+            background: white;
+            padding: 20px;
+            border-radius: 16px;
+            text-align: center;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+            transition: transform 0.3s;
+        }
+
+        .stat-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .stat-icon {
+            font-size: 32px;
+            margin-bottom: 12px;
+        }
+
+        .stat-label {
+            color: #4a5568;
+            font-size: 12px;
+            margin-bottom: 8px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .stat-value {
+            color: #22543d;
+            font-size: 24px;
+            font-weight: 700;
+        }
+
+        .stat-value.small {
+            font-size: 18px;
+        }
+
+        .error-message {
+            background: #fff5f5;
+            border: 1px solid #feb2b2;
+            border-radius: 14px;
+            padding: 18px;
+            margin: 20px 0;
+            color: #c53030;
+            display: none;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .loading-spinner {
+            display: inline-block;
+            width: 18px;
+            height: 18px;
+            border: 2px solid rgba(255,255,255,0.3);
+            border-radius: 50%;
+            border-top-color: white;
+            animation: spin 0.8s linear infinite;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        .footer {
+            text-align: center;
+            margin-top: 25px;
+            color: rgba(255,255,255,0.9);
+            font-size: 13px;
+            padding: 15px;
+        }
+
+        .footer a {
+            color: white;
+            text-decoration: none;
+            border-bottom: 1px dashed rgba(255,255,255,0.5);
+            transition: all 0.3s;
+        }
+
+        .footer a:hover {
+            border-bottom-color: white;
+        }
+
+        @media (max-width: 768px) {
+            .upload-section {
+                grid-template-columns: 1fr;
+            }
+            
+            .stats-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            
+            .status-bar {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+            
+            .status-info {
+                width: 100%;
+                justify-content: space-between;
+            }
+            
+            .action-buttons {
+                flex-direction: column;
+            }
+            
+            .btn {
+                width: 100%;
+            }
+        }
+
+        .brand-cleanup-buttons {
+            display: flex;
+            gap: 15px;
+            margin: 20px 0;
+            flex-wrap: wrap;
+        }
+
+        .btn-cleanup {
+            flex: 1;
+            min-width: 160px;
+            padding: 14px 20px;
+            border: none;
+            border-radius: 12px;
+            font-size: 15px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+        }
+
+        .btn-cleanup:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(0,0,0,0.15);
+        }
+
+        .btn-cleanup.tmz:hover {
+            background: linear-gradient(135deg, #5a67d8, #4c51bf) !important;
+        }
+
+        .btn-cleanup.yamz:hover {
+            background: linear-gradient(135deg, #ee5a24, #dd4b1f) !important;
+        }
+
+        .btn-cleanup.yazda:hover {
+            background: linear-gradient(135deg, #45b7d1, #3aa5c0) !important;
+        }
+
+        .btn-cleanup:active {
+            transform: translateY(0);
+        }
+
+        .nav-tabs {
+            display: flex;
+            gap: 10px;
+            justify-content: center;
+            margin-top: 20px;
+        }
+
+        .nav-tab {
+            padding: 12px 30px;
+            border-radius: 30px;
+            background: #f1f3f5;
+            color: #495057;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            border: 2px solid transparent;
+            text-decoration: none;
+            display: inline-block;
+        }
+
+        .nav-tab.prices {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+        }
+
+        .nav-tab.stocks {
+            background: linear-gradient(135deg, #38a169, #2c7a4b);
+            color: white;
+        }
+
+        .nav-tab:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+        }
+
+        .brand-tabs {
+            display: flex;
+            gap: 10px;
+            justify-content: center;
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>
+                🚀 Админ-панель
+                <span>v3.0</span>
+            </h1>
+            <p>Управление прайсами ТМЗ, ЯМЗ и ЯЗДА</p>
+
+            <div class="nav-tabs">
+                <a href="/admin/update-prices.html" class="nav-tab prices">💰 Прайсы</a>
+                <a href="/admin/update-stocks.html" class="nav-tab stocks">📦 Остатки</a>
+            </div>
+            
+            <div class="brand-tabs">
+                <div class="brand-tab tmz active" onclick="switchBrand('tmz')">ТМЗ</div>
+                <div class="brand-tab yamz" onclick="switchBrand('yamz')">ЯМЗ</div>
+                <div class="brand-tab yazda" onclick="switchBrand('yazda')">ЯЗДА</div>
+            </div>
+        </div>
+
+        <div class="status-bar">
+            <div class="status-info" id="statusInfo">
+                <div class="status-item tmz-status">
+                    <div class="status-label">ТМЗ в базе</div>
+                    <div class="status-value" id="statusTmz">-</div>
+                </div>
+                <div class="status-item yamz-status" style="display: none;">
+                    <div class="status-label">ЯМЗ в базе</div>
+                    <div class="status-value" id="statusYamz">-</div>
+                </div>
+                <div class="status-item yazda-status" style="display: none;">
+                    <div class="status-label">ЯЗДА в базе</div>
+                    <div class="status-value" id="statusYazda">-</div>
+                </div>
+                <div class="status-item">
+                    <div class="status-label">Товары с ценами</div>
+                    <div class="status-value" id="statusProducts"><span>0/0</span></div>
+                </div>
+            </div>
+            <button class="refresh-btn" onclick="loadStatus()" id="refreshBtn">
+                <span>🔄</span>
+                <span>Обновить статус</span>
+            </button>
+        </div>
+
+        <div class="main-content">
+            <div class="info-banner">
+                <div class="info-icon">ℹ️</div>
+                <div class="info-text">
+                    <strong>Гибкая загрузка файлов</strong>
+                    <p>Вы можете загрузить файлы для одного или нескольких производителей. Для ТМЗ, ЯМЗ и ЯЗДА можно выбирать несколько файлов</p>
+                </div>
+                <div class="info-badges" id="infoBadges">
+                    <div class="badge tmz">
+                        <span>🔧</span>
+                        <span>ТМЗ</span>
+                    </div>
+                    <div class="badge yamz">
+                        <span>⚙️</span>
+                        <span>ЯМЗ</span>
+                    </div>
+                    <div class="badge yazda">
+                        <span>🔨</span>
+                        <span>ЯЗДА</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="upload-section">
+                <!-- Карточка для ТМЗ -->
+                <div class="upload-card tmz" id="tmzCard">
+                    <div class="card-header">
+                        <div class="card-icon">🔧</div>
+                        <div class="card-title">
+                            <h3>ТМЗ</h3>
+                            <p>Двигатели и запчасти</p>
+                        </div>
+                    </div>
+
+                    <div class="file-status" id="tmzFileStatus" style="display: none;">
+                        <div class="file-list" id="tmzFileList"></div>
+                    </div>
+
+                    <div class="file-input-wrapper">
+                        <input type="file" id="tmzFile" accept=".csv" onchange="handleFileSelect('tmz', this)" multiple>
+                        <div class="file-input-button">
+                            <span>📁</span>
+                            <span>Выбрать файлы ТМЗ</span>
+                        </div>
+                    </div>
+
+                    <div class="file-format">
+                        <span>📋 Формат:</span>
+                        <code>article;price_with_nds</code>
+                    </div>
+                </div>
+
+                <!-- Карточка для ЯМЗ -->
+                <div class="upload-card yamz" id="yamzCard">
+                    <div class="card-header">
+                        <div class="card-icon">⚙️</div>
+                        <div class="card-title">
+                            <h3>ЯМЗ</h3>
+                            <p>Все категории прайсов</p>
+                        </div>
+                    </div>
+
+                    <div class="file-status" id="yamzFileStatus" style="display: none;">
+                        <div class="file-list" id="yamzFileList"></div>
+                    </div>
+
+                    <div class="file-input-wrapper">
+                        <input type="file" id="yamzFile" accept=".csv" onchange="handleFileSelect('yamz', this)" multiple>
+                        <div class="file-input-button">
+                            <span>📁</span>
+                            <span>Выбрать файлы ЯМЗ</span>
+                        </div>
+                    </div>
+
+                    <div class="file-format">
+                        <span>📋 Формат:</span>
+                        <code>article;price_with_nds</code>
+                    </div>
+                </div>
+
+                <!-- Карточка для ЯЗДА -->
+                <div class="upload-card yazda" id="yazdaCard">
+                    <div class="card-header">
+                        <div class="card-icon">🔨</div>
+                        <div class="card-title">
+                            <h3>ЯЗДА</h3>
+                            <p>Запчасти</p>
+                        </div>
+                    </div>
+
+                    <div class="file-status" id="yazdaFileStatus" style="display: none;">
+                        <div class="file-list" id="yazdaFileList"></div>
+                    </div>
+
+                    <div class="file-input-wrapper">
+                        <input type="file" id="yazdaFile" accept=".csv" onchange="handleFileSelect('yazda', this)" multiple>
+                        <div class="file-input-button">
+                            <span>📁</span>
+                            <span>Выбрать файлы ЯЗДА</span>
+                        </div>
+                    </div>
+
+                    <div class="file-format">
+                        <span>📋 Формат:</span>
+                        <code>article;price_with_nds</code>
+                    </div>
+                </div>
+            </div>
+
+            <div class="action-buttons">
+                <button class="btn btn-primary" id="updateBtn" onclick="updatePrices()">
+                    <span>🔄</span>
+                    <span>Обновить цены</span>
+                </button>
+                <button class="btn btn-secondary" id="clearBtn" onclick="clearForm()">
+                    <span>🗑️</span>
+                    <span>Очистить форму</span>
+                </button>
+                <button class="btn btn-danger" id="cleanupBtn" onclick="cleanupUploads()">
+                    <span>🧹</span>
+                    <span>Очистить файлы</span>
+                </button>
+            </div>
+
+            <!-- Отдельные кнопки для очистки каждого бренда -->
+            <div class="brand-cleanup-buttons" style="display: flex; gap: 15px; margin: 20px 0; flex-wrap: wrap;">
+                <button class="btn btn-cleanup tmz" onclick="cleanupBrand('tmz')" style="flex: 1; background: linear-gradient(135deg, #667eea, #5a67d8); color: white;">
+                    <span>🔧</span>
+                    <span>Очистить ТМЗ</span>
+                </button>
+                <button class="btn btn-cleanup yamz" onclick="cleanupBrand('yamz')" style="flex: 1; background: linear-gradient(135deg, #ff6b6b, #ee5a24); color: white;">
+                    <span>⚙️</span>
+                    <span>Очистить ЯМЗ</span>
+                </button>
+                <button class="btn btn-cleanup yazda" onclick="cleanupBrand('yazda')" style="flex: 1; background: linear-gradient(135deg, #4ecdc4, #45b7d1); color: white;">
+                    <span>🛞</span>
+                    <span>Очистить ЯЗДА</span>
+                </button>
+            </div>
+
+            <!-- Кнопка для очистки всех брендов сразу -->
+            <div style="display: flex; gap: 15px; margin: 20px 0;">
+                <button class="btn btn-danger" onclick="cleanupAllBrands()" style="flex: 1; background: #dc3545;">
+                    <span>⚠️</span>
+                    <span>Очистить ВСЕ бренды</span>
+                </button>
+            </div>
+
+            <div class="progress-container" id="progressContainer">
+                <div class="progress-bar">
+                    <div class="progress-fill" id="progressFill"></div>
+                </div>
+                <div class="progress-text" id="progressText">Подготовка...</div>
+            </div>
+
+            <div class="log-container" id="logContainer"></div>
+
+            <div class="stats-container" id="statsContainer">
+                <div class="stats-title">
+                    <span>📊</span>
+                    <span>Результаты обновления</span>
+                </div>
+                <div class="stats-grid" id="statsGrid"></div>
+            </div>
+
+            <div class="error-message" id="errorMessage">
+                <span>⚠️</span>
+                <span id="errorText"></span>
+            </div>
+        </div>
+
+        <div class="footer">
+            <p>⚡ Вы можете загрузить файлы для одного или нескольких производителей | 
+               <a href="/catalog.html">Вернуться в каталог</a></p>
+        </div>
+    </div>
+
+    <script>
+        const API_BASE = '';
+        let currentBrand = 'tmz';
+        
+        let logContainer = document.getElementById('logContainer');
+        let progressContainer = document.getElementById('progressContainer');
+        let progressFill = document.getElementById('progressFill');
+        let progressText = document.getElementById('progressText');
+        let statsContainer = document.getElementById('statsContainer');
+        let statsGrid = document.getElementById('statsGrid');
+        let errorMessage = document.getElementById('errorMessage');
+        let errorText = document.getElementById('errorText');
+        let updateBtn = document.getElementById('updateBtn');
+        
+        // Файловые элементы
+        let tmzFile = document.getElementById('tmzFile');
+        let yamzFile = document.getElementById('yamzFile');
+        let yazdaFile = document.getElementById('yazdaFile');
+        
+        let tmzFileStatus = document.getElementById('tmzFileStatus');
+        let yamzFileStatus = document.getElementById('yamzFileStatus');
+        let yazdaFileStatus = document.getElementById('yazdaFileStatus');
+        
+        let tmzFileList = document.getElementById('tmzFileList');
+        let yamzFileList = document.getElementById('yamzFileList');
+        let yazdaFileList = document.getElementById('yazdaFileList');
+
+        // Хранилище выбранных файлов
+        let selectedFiles = {
+            tmz: [],
+            yamz: [],
+            yazda: []
+        };
+
+        // Загружаем статус при загрузке страницы
+        document.addEventListener('DOMContentLoaded', loadStatus);
+
+        function switchBrand(brand) {
+            currentBrand = brand;
+            
+            // Обновляем табы
+            document.querySelectorAll('.brand-tab').forEach(tab => {
+                tab.classList.remove('active');
+            });
+            document.querySelector(`.brand-tab.${brand}`).classList.add('active');
+            
+            // Показываем соответствующий статус
+            document.querySelectorAll('.status-item').forEach(item => {
+                item.style.display = 'none';
+            });
+            document.querySelector(`.${brand}-status`).style.display = 'block';
+            document.querySelector('.status-item:last-child').style.display = 'block';
+            
+            // Обновляем статус для выбранного бренда
+            loadStatus();
+        }
+
+        function handleFileSelect(type, input) {
+            if (input.files.length > 0) {
+                selectedFiles[type] = Array.from(input.files);
+                updateFileList(type);
+                
+                // Подсвечиваем карточку
+                document.getElementById(`${type}Card`).style.background = 
+                    type === 'tmz' ? '#f0f3ff' : 
+                    type === 'yamz' ? '#fff0f0' : '#f0fcfc';
+                
+                const totalSize = selectedFiles[type].reduce((acc, file) => acc + file.size, 0);
+                const size = (totalSize / 1024).toFixed(2);
+                addLog(`✅ Выбрано файлов ${type.toUpperCase()}: ${selectedFiles[type].length} (${size} KB)`, 'success');
+            }
+        }
+
+        function updateFileList(type) {
+            const listElement = document.getElementById(`${type}FileList`);
+            const statusElement = document.getElementById(`${type}FileStatus`);
+            
+            if (selectedFiles[type].length > 0) {
+                let html = '';
+                selectedFiles[type].forEach((file, index) => {
+                    const size = (file.size / 1024).toFixed(2);
+                    html += `
+                        <div class="file-item">
+                            <span class="file-name" title="${file.name}">${file.name}</span>
+                            <span class="file-size">${size} KB</span>
+                            <span class="remove-file" onclick="removeFile('${type}', ${index})">✕</span>
+                        </div>
+                    `;
+                });
+                listElement.innerHTML = html;
+                statusElement.style.display = 'flex';
+            } else {
+                statusElement.style.display = 'none';
+                document.getElementById(`${type}Card`).style.background = '#f8f9fa';
+            }
+        }
+
+        function removeFile(type, index) {
+            selectedFiles[type].splice(index, 1);
+            
+            // Обновляем input file
+            const input = document.getElementById(`${type}File`);
+            const dt = new DataTransfer();
+            selectedFiles[type].forEach(file => dt.items.add(file));
+            input.files = dt.files;
+            
+            updateFileList(type);
+            addLog(`🗑️ Файл ${type.toUpperCase()} удален из формы`, 'warning');
+        }
+
+        function addLog(message, type = 'info') {
+            const logEntry = document.createElement('div');
+            logEntry.className = `log-entry ${type}`;
+            
+            const icons = {
+                success: '✅',
+                error: '❌',
+                warning: '⚠️',
+                info: 'ℹ️'
+            };
+            
+            const timestamp = new Date().toLocaleTimeString('ru-RU', { 
+                hour: '2-digit', 
+                minute: '2-digit', 
+                second: '2-digit' 
+            });
+            
+            logEntry.innerHTML = `
+                <span class="log-time">[${timestamp}]</span>
+                <span class="log-icon">${icons[type] || '•'}</span>
+                <span class="log-message">${message}</span>
+            `;
+            
+            logContainer.appendChild(logEntry);
+            logContainer.scrollTop = logContainer.scrollHeight;
+        }
+
+        function updateProgress(percent, text) {
+            progressFill.style.width = percent + '%';
+            progressText.textContent = text;
+        }
+
+        function showError(message) {
+            errorText.textContent = message;
+            errorMessage.style.display = 'flex';
+            setTimeout(() => {
+                errorMessage.style.display = 'none';
+            }, 5000);
+        }
+
+        async function loadStatus() {
+            const refreshBtn = document.getElementById('refreshBtn');
+            refreshBtn.innerHTML = '<span class="loading-spinner"></span> Загрузка...';
+            
+            try {
+                const response = await fetch('/api/update-status');
+                const data = await response.json();
+                
+                document.getElementById('statusTmz').textContent = data.tmz_count || 0;
+                document.getElementById('statusYamz').textContent = data.yamz_count || 0;
+                document.getElementById('statusYazda').textContent = data.yazda_count || 0;
+                document.getElementById('statusProducts').innerHTML = 
+                    `<span>${data.products_with_price || 0}/${data.total_products || 0}</span>`;
+                
+            } catch (error) {
+                console.error('Ошибка загрузки статуса:', error);
+                showError('Не удалось загрузить статус');
+            } finally {
+                refreshBtn.innerHTML = '<span>🔄</span><span>Обновить статус</span>';
+            }
+        }
+
+        function clearForm() {
+            // Очищаем все выбранные файлы
+            ['tmz', 'yamz', 'yazda'].forEach(type => {
+                selectedFiles[type] = [];
+                document.getElementById(`${type}File`).value = '';
+                updateFileList(type);
+            });
+            
+            logContainer.innerHTML = '';
+            logContainer.style.display = 'none';
+            progressContainer.style.display = 'none';
+            statsContainer.style.display = 'none';
+            errorMessage.style.display = 'none';
+            updateProgress(0, 'Подготовка...');
+            addLog('🧹 Форма очищена', 'info');
+        }
+
+        function showStats(stats) {
+            const percentage = stats.total_products > 0 
+                ? Math.round((stats.products_with_price / stats.total_products) * 100) 
+                : 0;
+            
+            statsGrid.innerHTML = `
+                <div class="stat-card">
+                    <div class="stat-icon">🔧</div>
+                    <div class="stat-label">ТМЗ в прайсе</div>
+                    <div class="stat-value">${stats.tmz_count || 0}</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon">⚙️</div>
+                    <div class="stat-label">ЯМЗ в прайсе</div>
+                    <div class="stat-value">${stats.yamz_count || 0}</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon">🛞</div>
+                    <div class="stat-label">ЯЗДА в прайсе</div>
+                    <div class="stat-value">${stats.yazda_count || 0}</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon">💰</div>
+                    <div class="stat-label">Товаров с ценами</div>
+                    <div class="stat-value">${stats.products_with_price || 0}</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon">📊</div>
+                    <div class="stat-label">Обновлено</div>
+                    <div class="stat-value">${percentage}%</div>
+                </div>
+            `;
+            
+            statsContainer.style.display = 'block';
+        }
+
+        async function updatePrices() {
+            // Проверка выбора файлов
+            if (selectedFiles.tmz.length === 0 && selectedFiles.yamz.length === 0 && selectedFiles.yazda.length === 0) {
+                showError('Пожалуйста, выберите хотя бы один файл');
+                return;
+            }
+
+            // Очистка и подготовка UI
+            logContainer.innerHTML = '';
+            logContainer.style.display = 'block';
+            progressContainer.style.display = 'block';
+            statsContainer.style.display = 'none';
+            errorMessage.style.display = 'none';
+            updateBtn.disabled = true;
+            
+            addLog('🚀 Запуск обновления прайсов...', 'info');
+            
+            const formData = new FormData();
+            let filesCount = 0;
+            
+            // Добавляем файлы ТМЗ
+            selectedFiles.tmz.forEach(file => {
+                formData.append('tmzFiles', file);
+                filesCount++;
+            });
+            
+            // Добавляем файлы ЯМЗ
+            selectedFiles.yamz.forEach(file => {
+                formData.append('yamzFiles', file);
+                filesCount++;
+            });
+            
+            // Добавляем файлы ЯЗДА
+            selectedFiles.yazda.forEach(file => {
+                formData.append('yazdaFiles', file);
+                filesCount++;
+            });
+            
+            addLog(`📊 Загружается ${filesCount} файл(ов)...`, 'info');
+
+            try {
+                updateProgress(10, 'Отправка файлов на сервер...');
+                
+                const response = await fetch('/api/update-prices', {
+                    method: 'POST',
+                    body: formData
+                });
+
+                const result = await response.json();
+
+                if (result.success) {
+                    updateProgress(100, 'Обновление завершено!');
+                    addLog('✅ ' + result.message, 'success');
+                    addLog(`⏱️ Время выполнения: ${result.timeElapsed} сек`, 'success');
+                    
+                    // Показываем, что именно было обновлено
+                    if (result.updated) {
+                        if (result.updated.tmz) addLog('✅ Обновлены цены ТМЗ', 'success');
+                        if (result.updated.yamz) addLog('✅ Обновлены цены ЯМЗ', 'success');
+                        if (result.updated.yazda) addLog('✅ Обновлены цены ЯЗДА', 'success');
+                    }
+                    
+                    showStats(result.stats);
+                    
+                    // Обновляем статус
+                    await loadStatus();
+                } else {
+                    throw new Error(result.message || 'Неизвестная ошибка');
+                }
+
+            } catch (error) {
+                updateProgress(0, 'Ошибка обновления');
+                addLog(`❌ Ошибка: ${error.message}`, 'error');
+                showError(`Ошибка: ${error.message}`);
+                console.error('Ошибка:', error);
+            } finally {
+                updateBtn.disabled = false;
+            }
+        }
+
+        async function cleanupUploads() {
+            if (!confirm('Вы уверены, что хотите удалить все загруженные файлы?')) {
+                return;
+            }
+            
+            try {
+                const response = await fetch('/api/cleanup-uploads', {
+                    method: 'DELETE'
+                });
+                
+                const result = await response.json();
+                
+                if (result.success) {
+                    addLog('🧹 Все временные файлы удалены с сервера', 'success');
+                } else {
+                    showError('Ошибка при очистке файлов');
+                }
+            } catch (error) {
+                showError('Ошибка при очистке файлов');
+            }
+        }
+
+        // Автоматическое обновление статуса каждые 30 секунд
+        setInterval(loadStatus, 30000);
+
+        // Функция для очистки отдельного бренда
+        async function cleanupBrand(brand) {
+            const brandNames = {
+                tmz: 'ТМЗ',
+                yamz: 'ЯМЗ',
+                yazda: 'ЯЗДА'
+            };
+            
+            if (!confirm(`Вы уверены, что хотите очистить все данные ${brandNames[brand]}? Это удалит все цены из таблиц и обнулит цены в товарах.`)) {
+                return;
+            }
+            
+            // Очистка и подготовка UI
+            logContainer.innerHTML = '';
+            logContainer.style.display = 'block';
+            progressContainer.style.display = 'block';
+            updateBtn.disabled = true;
+            
+            addLog(`🚀 Запуск очистки данных ${brandNames[brand]}...`, 'info');
+            
+            try {
+                updateProgress(30, 'Очистка данных...');
+                
+                const response = await fetch(`/api/cleanup-brand/${brand}`, {
+                    method: 'DELETE'
+                });
+                
+                const result = await response.json();
+                
+                if (result.success) {
+                    updateProgress(100, 'Очистка завершена!');
+                    addLog(`✅ ${result.message}`, 'success');
+                    
+                    // Обновляем статус
+                    await loadStatus();
+                } else {
+                    throw new Error(result.message || 'Неизвестная ошибка');
+                }
+                
+            } catch (error) {
+                updateProgress(0, 'Ошибка очистки');
+                addLog(`❌ Ошибка: ${error.message}`, 'error');
+                showError(`Ошибка: ${error.message}`);
+                console.error('Ошибка:', error);
+            } finally {
+                updateBtn.disabled = false;
+                setTimeout(() => {
+                    progressContainer.style.display = 'none';
+                }, 2000);
+            }
+        }
+
+        // Функция для очистки всех брендов сразу
+        async function cleanupAllBrands() {
+            if (!confirm('Вы уверены, что хотите очистить ВСЕ данные (ТМЗ, ЯМЗ, ЯЗДА)? Это действие нельзя отменить!')) {
+                return;
+            }
+            
+            // Очистка и подготовка UI
+            logContainer.innerHTML = '';
+            logContainer.style.display = 'block';
+            progressContainer.style.display = 'block';
+            updateBtn.disabled = true;
+            
+            addLog('🚀 Запуск полной очистки всех брендов...', 'info');
+            
+            try {
+                updateProgress(30, 'Очистка всех данных...');
+                
+                const response = await fetch('/api/cleanup-all-brands', {
+                    method: 'DELETE'
+                });
+                
+                const result = await response.json();
+                
+                if (result.success) {
+                    updateProgress(100, 'Полная очистка завершена!');
+                    addLog(`✅ ${result.message}`, 'success');
+                    
+                    // Обновляем статус
+                    await loadStatus();
+                } else {
+                    throw new Error(result.message || 'Неизвестная ошибка');
+                }
+                
+            } catch (error) {
+                updateProgress(0, 'Ошибка очистки');
+                addLog(`❌ Ошибка: ${error.message}`, 'error');
+                showError(`Ошибка: ${error.message}`);
+                console.error('Ошибка:', error);
+            } finally {
+                updateBtn.disabled = false;
+                setTimeout(() => {
+                    progressContainer.style.display = 'none';
+                }, 2000);
+            }
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>АРТАЛЕКС ГАЗ ГРУПП АВТО</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="stylesheet" href="css/index.css">
+</head>
+<body>
+    <header id="header">
+        <div class="header-container">
+            <a href="#" class="logo">
+                <img src="logo.png" alt="АРТАЛЕКС ГАЗ">
+            </a>
+
+            <div class="burger-menu">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+
+            <nav class="desktop-nav">
+                <ul>
+                    <li class="city-selector">
+                        <select id="citySelect">
+                        </select>
+                    </li>
+                    <li><a href="products.html">Наши товары</a></li>
+                    <li><a href="#price-section">Прайс-лист</a></li>
+                    <li><a href="/">О компании</a></li>
+                    <li><a href="/">Контакты</a></li>
+                    <li class="cart-icon" onclick="toggleCart()">
+                        <i class="fas fa-shopping-cart"></i>
+                        <span class="cart-count" id="cartCount">0</span>
+                    </li>
+                </ul>
+            </nav>
+            
+            <div class="contacts-wrapper">
+                <div class="contact-block">
+                    <p><i class="fas fa-map-marker-alt"></i> г. Ярославль, ул. Базовая 5в</p>
+                    <p><i class="fas fa-envelope"></i> info@artalexgroup.ru</p>
+                    <p><i class="fas fa-phone-alt"></i> +7 (960) 538-59-42</p>
+                </div>
+                <div class="contact-block">
+                    <p><i class="fas fa-map-marker-alt"></i> г. Казань, ул. Примерная 10</p>
+                    <p><i class="fas fa-envelope"></i> kazan@artalexgroup.ru</p>
+                    <p><i class="fas fa-phone-alt"></i> +7 (987) 654-32-10</p>
+                </div>
+            </div>
+        </div>
+        <div class="search-container">
+            <input type="text" class="search-input" id="mainSearchInput" placeholder="Поиск товаров...">
+        </div>
+    </header>
+
+    <div class="overlay"></div>
+    <nav class="mobile-nav"> 
+        <div class="city-selector">
+            <select id="citySelectMobile">
+            </select>
+        </div>
+        
+        <ul>
+            <li><a href="/products">Наши товары</a></li>
+            <li><a href="#price-section">Прайс-лист</a></li>
+            <li><a href="/about">О компании</a></li>
+            <li><a href="/contacts">Контакты</a></li>
+            <li><a href="javascript:void(0)" onclick="toggleCart()">Корзина (<span id="mobileCartCount">0</span>)</a></li>
+        </ul>
+        <div class="mobile-contacts-wrapper">
+            <div class="mobile-contact-block">
+                <p><i class="fas fa-map-marker-alt"></i> г. Ярославль, ул. Базовая 5в</p>
+                <p><i class="fas fa-envelope"></i> info@artalexgroup.ru</p>
+                <p><i class="fas fa-phone-alt"></i> +7 (960) 538-59-42</p>
+            </div>
+            <div class="contact-divider"></div>
+            <div class="mobile-contact-block">
+                <p><i class="fas fa-map-marker-alt"></i> г. Казань, ул. Примерная 10</p>
+                <p><i class="fas fa-envelope"></i> kazan@artalexgroup.ru</p>
+                <p><i class="fas fa-phone-alt"></i> +7 (987) 654-32-10</p>
+            </div>
+        </div>
+    </nav>
+
+    <div class="carousel">
+        <div class="hero-content">
+            <h1>АРТАЛЕКС ГАЗ ГРУПП АВТО</h1>
+            <div class="content-row">
+                <div class="text-content">
+                    <h2>Официальный дилер ПАО "ТМЗ"</h2>
+                    <p>Запчасти для грузовиков и спецтехники</p>
+                </div>
+                <div class="side-images-container">
+                    <img src="logo_tmz.png" alt="Логотип ТМЗ" class="side-image">
+                    <img src="certificate.png" alt="Сертификат" class="side-image" id="certificateImg">
+                </div>
+            </div>
+        </div>
+        
+        <div class="carousel-inner">
+            <div class="carousel-item" style="background-image: url('carusel_1.png');"></div>
+            <div class="carousel-item" style="background-image: url('carusel_2.png');"></div>
+            <div class="carousel-item" style="background-image: url('carusel_3.png');"></div>
+        </div>
+        <div class="carousel-control prev"><i class="fas fa-chevron-left"></i></div>
+        <div class="carousel-control next"><i class="fas fa-chevron-right"></i></div>
+    </div>
+
+    <div id="certificateModal" class="modal">
+        <span class="close">&times;</span>
+        <img class="modal-content" id="modalCertificateImg">
+    </div>
+
+    <section class="products-section">
+        <h2>Наши товары</h2>
+        <div class="products-container" id="SixProducts">
+        </div>
+    </section>
+
+    <section id="price-section" class="price-section">
+        <h2>Прайс-лист</h2>
+        <div class="price-container">
+            <div class="price-block">
+                <div class="price-title">Двигатели ЯМЗ</div>
+                <div class="price-date">с 01.07.2025г.</div>
+                <a href="price_ymz_engine.xls" class="price-download" download>
+                    <i class="fas fa-file-excel"></i> Скачать XLS
+                </a>
+            </div>
+            
+            <div class="price-block">
+                <div class="price-title">Запасные части АО ЯЗДА</div>
+                <div class="price-date">с 01.01.2025г.</div>
+                <a href="price_yazda_parts.xls" class="price-download" download>
+                    <i class="fas fa-file-excel"></i> Скачать XLS
+                </a>
+            </div>
+            
+            <div class="price-block">
+                <div class="price-title">Прайс ТМЗ</div>
+                <div class="price-date">с 01.04.2025г.</div>
+                <a href="price/TMZ.xls" class="price-download" download>
+                    <i class="fas fa-file-excel"></i> Скачать XLS
+                </a>
+            </div>
+            
+            <div class="price-block">
+                <div class="price-title">V-образные ЯМЗ-530/650</div>
+                <div class="price-date">с 01.08.2025г.</div>
+                <a href="price_ymz_vshape.xls" class="price-download" download>
+                    <i class="fas fa-file-excel"></i> Скачать XLS
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <div class="address-section">
+        <h2>Наш адрес</h2>
+        <div class="address-container">
+            <p class="address-text">г. Ярославль, ул. Базовая 5в, помещение 4</p>
+            <div class="map-container">
+                <iframe src="https://yandex.ru/map-widget/v1/?um=constructor%3A7282c5a895ea92212a1e80c55ad2b64eb31c658b2f294d9f1e943e7324ab3a62&amp;source=constructor" width="100%" height="650" frameborder="0"></iframe>
+            </div>
+        </div>
+    </div>
+ <!-- Модальное окно корзины -->
+<div class="cart-modal" id="cartModal">
+    <div class="cart-modal-content">
+        <div class="cart-modal-header">
+            <h2>Ваша корзина</h2>
+            <span class="close-cart" onclick="closeCart()">&times;</span>
+        </div>
+        
+        <div class="cart-items" id="cartItems">
+            <!-- Товары будут добавляться динамически -->
+        </div>
+        
+        <div class="cart-form">
+            <h3>Контактные данные</h3>
+            <form id="cartForm">
+                <div class="form-group">
+                    <label for="customerName">Ваше имя *</label>
+                    <input type="text" id="customerName" name="name" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="customerPhone">Телефон *</label>
+                    <input type="tel" id="customerPhone" name="phone" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="customerEmail">Email</label>
+                    <input type="email" id="customerEmail" name="email">
+                </div>
+                
+                <div class="form-group">
+                    <label for="customerMessage">Комментарий к заказу</label>
+                    <textarea id="customerMessage" name="message" rows="3" placeholder="Дополнительная информация..."></textarea>
+                </div>
+                
+                <button type="submit" class="submit-cart-btn">
+                    <i class="fas fa-paper-plane"></i> Запросить цену
+                </button>
+            </form>
+        </div>
+    </div>
+</div>
+    <footer class="footer">
+    <div class="footer-container">
+        <div class="footer-section">
+            <h3>АРТАЛЕКС ГАЗ ГРУПП АВТО</h3>
+            <p>Официальный дилер ПАО "ТМЗ"</p>
+            <p>Запчасти для грузовиков и спецтехники</p>
+        </div>
+        
+        <div class="footer-section">
+            <h4>Контакты</h4>
+            <p><i class="fas fa-phone-alt"></i> +7 (960) 538-59-42</p>
+            <p><i class="fas fa-envelope"></i> info@artalexgroup.ru</p>
+            <p><i class="fas fa-map-marker-alt"></i> г. Ярославль, ул. Базовая 5в</p>
+        </div>
+        
+        <div class="footer-section">
+            <h4>Режим работы</h4>
+            <p>Пн-Пт: 9:00 - 18:00</p>
+            <p>Сб: 10:00 - 15:00</p>
+            <p>Вс: Выходной</p>
+        </div>
+        
+        <div class="footer-section">
+            <h4>Быстрые ссылки</h4>
+            <ul>
+                <li><a href="/products">Наши товары</a></li>
+                <li><a href="#price-section">Прайс-лист</a></li>
+                <li><a href="/about">О компании</a></li>
+                <li><a href="/contacts">Контакты</a></li>
+            </ul>
+        </div>
+    </div>
+    
+    <div class="footer-bottom">
+        <div class="footer-bottom-container">
+            <p>&copy; 2025 АРТАЛЕКС ГАЗ ГРУПП АВТО. Все права защищены.</p>
+        </div>
+    </div>
+</footer>
+<script src="js/api.js"></script>
+<script src="js/index.js"></script>
+<script src="js/modules/burger-menu.js"></script>
+<script src="js/modules/carousel.js"></script>
+<script src="js/modules/certificate-modal.js"></script>
+<script src="js/modules/cart.js"></script>
+<script src="js/modules/city-selector.js"></script>
+<script src="js/modules/smooth-scroll.js"></script>
+<script src="js/modules/search.js"></script>
+<script>
+    // Инициализация каталога при загрузке страницы
+    document.addEventListener('DOMContentLoaded', function() {
+        loadSixCatalog();
+    });
+</script>
+</body>
+</html>

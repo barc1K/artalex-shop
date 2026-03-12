@@ -1,0 +1,33 @@
+/* ============================ НАВИГАЦИЯ ============================ */
+/* ===== ДЕСКТОПНАЯ НАВИГАЦИЯ ===== */
+nav.desktop-nav ul {
+    display: flex;
+    list-style: none;
+    padding-left: 0;
+    margin-left: 15px;
+    align-items: center;
+}
+
+nav.desktop-nav ul li {
+    margin-left: 60px;
+}
+
+nav.desktop-nav ul li a {
+    color: white;
+    text-decoration: none;
+    font-weight: 500;
+    transition: color 0.3s;
+    text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.8);
+    font-size: 17px;
+}
+
+nav ul li a:hover {
+    color: #f0f0f0;
+}
+
+/* ===== АДАПТИВНЫЕ СТИЛИ НАВИГАЦИИ ===== */
+@media (max-width: 992px) {
+    nav.desktop-nav {
+        display: none;
+    }
+}

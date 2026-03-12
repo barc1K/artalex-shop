@@ -1,0 +1,183 @@
+/* ============================ ШАПКА САЙТА ============================ */
+/* Основные стили шапки с фиксированным позиционированием */
+header {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    padding: 25px 0;
+    transition: all 0.3s ease;
+    z-index: 1001;
+    background-color: transparent;
+}
+
+/* Стили для шапки при прокрутке (эффект затемнения) */
+header.scrolled {
+    background-color: rgba(26, 62, 114, 1);
+    padding: 15px 0;
+    box-shadow: 0 2px 15px rgba(0, 0, 0, 0.2);
+}
+
+/* Контейнер для элементов шапки */
+.header-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    max-width: 90%;
+    margin: 0 auto;
+    padding: 0 20px;
+}
+
+/* ===== ЛОГОТИП ===== */
+.logo {
+    font-weight: bold;
+    font-size: 22px;
+    color: white;
+    text-decoration: none;
+    text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.8);
+}
+
+.logo img {
+    height: 80px;
+    width: auto;
+}
+
+/* ===== БУРГЕР-МЕНЮ ДЛЯ МОБИЛЬНЫХ ===== */
+.burger-menu {
+    display: none;
+    cursor: pointer;
+    padding: 10px;
+    z-index: 1002;
+}
+
+.burger-menu span {
+    display: block;
+    width: 25px;
+    height: 3px;
+    background-color: white;
+    margin: 5px 0;
+    transition: all 0.3s ease;
+    text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.8);
+}
+
+/* ===== МОБИЛЬНАЯ НАВИГАЦИЯ ===== */
+.mobile-nav {
+    position: fixed;
+    top: 0;
+    right: -100%;
+    width: 80%;
+    max-width: 300px;
+    height: 100vh;
+    background-color: rgba(26, 62, 114, 0.98);
+    z-index: 1003;
+    transition: right 0.3s ease;
+    padding-top: 50px;
+    box-shadow: -2px 0 10px rgba(0, 0, 0, 0.2);
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
+}
+
+.mobile-nav.active {
+    right: 0;
+}
+
+.mobile-nav ul {
+    display: flex;
+    flex-direction: column;
+    padding: 20px;
+    list-style: none;
+}
+
+.mobile-nav ul li {
+    margin: 5px 0;
+}
+
+.mobile-nav ul li a {
+    color: white;
+    text-decoration: none;
+    font-size: 18px;
+    display: block;
+    padding: 8px;
+}
+
+/* ===== ВСПОМОГАТЕЛЬНЫЕ ЭЛЕМЕНТЫ ===== */
+.overlay {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    z-index: 1002;
+}
+
+.overlay.active {
+    display: block;
+}
+
+/* ===== АДАПТИВНЫЕ СТИЛИ ШАПКИ ===== */
+@media (max-width: 992px) {
+    .header-container {
+        flex-wrap: wrap;
+        justify-content: space-between;
+        padding: 10px 20px;
+    }
+    
+    .logo img {
+        height: 60px;
+    }
+    
+    .burger-menu {
+        display: block;
+    }
+    
+    .contacts-wrapper {
+        display: none;
+    }
+    
+    .city-selector {
+        margin-left: 10px;
+    }
+}
+
+@media (max-width: 768px) {
+    header {
+        padding: 15px 0;
+    }
+    
+    header.scrolled {
+        padding: 10px 0;
+    }
+}
+
+@media (max-width: 480px) {
+    .mobile-nav {
+        width: 85%;
+    }
+}
+
+/* ЛАНДШАФТНАЯ ОРИЕНТАЦИЯ НА ПЛАНШЕТАХ */
+@media (max-width: 992px) and (orientation: landscape) {
+    header {
+        padding: 10px 0 !important;
+    }
+    
+    header.scrolled {
+        padding: 5px 0 !important;
+    }
+    
+    .logo img {
+        height: 40px !important;
+    }
+    
+    .burger-menu {
+        padding: 5px !important;
+    }
+    
+    .burger-menu span {
+        width: 20px !important;
+        height: 2px !important;
+        margin: 3px 0 !important;
+    }
+}

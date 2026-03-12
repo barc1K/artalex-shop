@@ -1,0 +1,104 @@
+/* ============================ РАЗДЕЛ ПРАЙС-ЛИСТА ============================ */
+.price-section {
+    padding: 40px 20px;
+    max-width: 90%;
+    margin: 0 auto;
+    scroll-margin-top: 100px;
+}
+
+.price-section h2 {
+    text-align: center;
+    margin-bottom: 30px;
+    font-size: 2rem;
+    color: #1a3e72;
+}
+
+.price-container {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 30px;
+    margin-bottom: 40px;
+}
+
+.price-block {
+    background-color: #f8f9fa;
+    border-radius: 15px;
+    padding: 25px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease;
+}
+
+.price-block:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+}
+
+.price-title {
+    font-size: 1.3rem;
+    font-weight: bold;
+    margin-bottom: 15px;
+    color: #1a3e72;
+    text-align: center;
+}
+
+.price-date {
+    font-size: 1rem;
+    color: #666;
+    margin-bottom: 20px;
+    text-align: center;
+}
+
+.price-download {
+    display: block;
+    text-align: center;
+    background-color: #1a3e72;
+    color: white;
+    padding: 12px 20px;
+    border-radius: 8px;
+    text-decoration: none;
+    font-weight: bold;
+    transition: background-color 0.3s;
+    font-size: 1.1rem;
+}
+
+.price-download:hover {
+    background-color: #0d2b57;
+}
+
+.price-download i {
+    margin-right: 10px;
+}
+
+/* ===== АДАПТИВНЫЕ СТИЛИ ПРАЙС-ЛИСТА ===== */
+@media (max-width: 768px) {
+    .price-container {
+        grid-template-columns: 1fr;
+    }
+    
+    .price-section h2 {
+        font-size: 1.8rem;
+    }
+    
+    .price-block {
+        padding: 20px;
+    }
+    
+    .price-title {
+        font-size: 1.2rem;
+    }
+    
+    .price-download {
+        padding: 10px 15px;
+        font-size: 1rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .price-section h2 {
+        font-size: 1.5rem;
+    }
+    
+    .price-section {
+        padding: 20px 10px;
+    }
+}

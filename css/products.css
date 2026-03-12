@@ -1,0 +1,32 @@
+/* ===== ИМПОРТ МОДУЛЕЙ ===== */
+@import url('modules/general/header.css');
+@import url('modules/general/navigation.css');
+@import url('modules/general/contacts.css');
+@import url('modules/general/city-selector.css');
+@import url('modules/general/search.css');
+@import url('modules/general/cart.css');
+@import url('modules/general/footer.css');
+@import url('modules/products/products-page.css');
+@import url('modules/products/catalog.css');
+@import url('modules/products/products-grid.css');
+@import url('modules/products/pagination.css');
+@import url('modules/products/submenu.css');
+
+/* ===== ОБЩИЕ СТИЛИ ===== */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Arial', sans-serif;
+}
+
+body {
+    line-height: 1.6;
+    color: #333;
+    overflow-x: hidden;
+    margin: 0;
+}
+
+header {
+    background-color: rgba(26, 62, 114, 1);
+}

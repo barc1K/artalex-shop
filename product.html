@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>АРТАЛЕКС ГАЗ ГРУПП АВТО</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="stylesheet" href="css/product.css">
+</head>
+<body>
+    <header id="header">
+        <div class="header-container">
+            <a href="index.html" class="logo">
+                <img src="logo.png" alt="АРТАЛЕКС ГАЗ">
+            </a>
+
+            <div class="burger-menu">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+
+            <nav class="desktop-nav">
+                <ul>
+                    <li class="city-selector">
+                        <select id="citySelect">
+                        </select>
+                    </li>
+                    <li><a href="products.html">Наши товары</a></li>
+                    <li><a href="index.html#price-section">Прайс-лист</a></li>
+                    <li><a href="/about">О компании</a></li>
+                    <li><a href="/contacts">Контакты</a></li>
+                    <li class="cart-icon" onclick="toggleCart()">
+                        <i class="fas fa-shopping-cart"></i>
+                        <span class="cart-count" id="cartCount">0</span>
+                    </li>
+                </ul>
+            </nav>
+            
+            <div class="contacts-wrapper">
+                <div class="contact-block">
+                    <p><i class="fas fa-map-marker-alt"></i> г. Ярославль, ул. Базовая 5в</p>
+                    <p><i class="fas fa-envelope"></i> info@artalexgroup.ru</p>
+                    <p><i class="fas fa-phone-alt"></i> +7 (960) 538-59-42</p>
+                </div>
+                <div class="contact-block">
+                    <p><i class="fas fa-map-marker-alt"></i> г. Казань, ул. Примерная 10</p>
+                    <p><i class="fas fa-envelope"></i> kazan@artalexgroup.ru</p>
+                    <p><i class="fas fa-phone-alt"></i> +7 (987) 654-32-10</p>
+                </div>
+            </div>
+        </div>
+        <div class="search-container">
+            <input type="text" class="search-input" id="mainSearchInput" placeholder="Поиск товаров...">
+        </div>
+    </header>
+
+    <div class="overlay"></div>
+    <nav class="mobile-nav"> 
+        <div class="city-selector">
+            <select id="citySelectMobile">
+            </select>
+        </div>
+        
+        <ul>
+            <li><a href="/products">Наши товары</a></li>
+            <li><a href="index.html#price-section">Прайс-лист</a></li>
+            <li><a href="/about">О компании</a></li>
+            <li><a href="/contacts">Контакты</a></li>
+            <li><a href="javascript:void(0)" onclick="toggleCart()">Корзина (<span id="mobileCartCount">0</span>)</a></li>
+        </ul>
+        <div class="mobile-contacts-wrapper">
+            <div class="mobile-contact-block">
+                <p><i class="fas fa-map-marker-alt"></i> г. Ярославль, ул. Базовая 5в</p>
+                <p><i class="fas fa-envelope"></i> info@artalexgroup.ru</p>
+                <p><i class="fas fa-phone-alt"></i> +7 (960) 538-59-42</p>
+            </div>
+            <div class="contact-divider"></div>
+            <div class="mobile-contact-block">
+                <p><i class="fas fa-map-marker-alt"></i> г. Казань, ул. Примерная 10</p>
+                <p><i class="fas fa-envelope"></i> kazan@artalexgroup.ru</p>
+                <p><i class="fas fa-phone-alt"></i> +7 (987) 654-32-10</p>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Уведомление о добавлении в корзину -->
+    <div class="cart-notification" id="cartNotification">
+        Товар добавлен в корзину!
+    </div>
+
+    <div class="product-page">
+        <a href="javascript:history.back()" class="back-button">← Назад к списку товаров</a>
+        <div class="product-container" id="CardProduct">
+        </div>
+    </div>
+
+    <!-- Модальное окно корзины -->
+<div class="cart-modal" id="cartModal">
+    <div class="cart-modal-content">
+        <div class="cart-modal-header">
+            <h2>Ваша корзина</h2>
+            <span class="close-cart" onclick="closeCart()">&times;</span>
+        </div>
+        
+        <div class="cart-items" id="cartItems">
+            <!-- Товары будут добавляться динамически -->
+        </div>
+        
+        <div class="cart-form">
+            <h3>Контактные данные</h3>
+            <form id="cartForm">
+                <div class="form-group">
+                    <label for="customerName">Ваше имя *</label>
+                    <input type="text" id="customerName" name="name" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="customerPhone">Телефон *</label>
+                    <input type="tel" id="customerPhone" name="phone" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="customerEmail">Email</label>
+                    <input type="email" id="customerEmail" name="email">
+                </div>
+                
+                <div class="form-group">
+                    <label for="customerMessage">Комментарий к заказу</label>
+                    <textarea id="customerMessage" name="message" rows="3" placeholder="Дополнительная информация..."></textarea>
+                </div>
+                
+                <button type="submit" class="submit-cart-btn">
+                    <i class="fas fa-paper-plane"></i> Запросить цену
+                </button>
+            </form>
+        </div>
+    </div>
+</div>
+
+    <footer class="footer">
+        <div class="footer-container">
+            <div class="footer-section">
+                <h3>АРТАЛЕКС ГАЗ ГРУПП АВТО</h3>
+                <p>Официальный дилер ПАО "ТМЗ"</p>
+                <p>Запчасти для грузовиков и спецтехники</p>
+            </div>
+            
+            <div class="footer-section">
+                <h4>Контакты</h4>
+                <p><i class="fas fa-phone-alt"></i> +7 (960) 538-59-42</p>
+                <p><i class="fas fa-envelope"></i> info@artalexgroup.ru</p>
+                <p><i class="fas fa-map-marker-alt"></i> г. Ярославль, ул. Базовая 5в</p>
+            </div>
+            
+            <div class="footer-section">
+                <h4>Режим работы</h4>
+                <p>Пн-Пт: 9:00 - 18:00</p>
+                <p>Сб: 10:00 - 15:00</p>
+                <p>Вс: Выходной</p>
+            </div>
+            
+            <div class="footer-section">
+                <h4>Быстрые ссылки</h4>
+                <ul>
+                    <li><a href="/products">Наши товары</a></li>
+                    <li><a href="#price-section">Прайс-лист</a></li>
+                    <li><a href="/about">О компании</a></li>
+                    <li><a href="/contacts">Контакты</a></li>
+                </ul>
+            </div>
+        </div>
+        
+        <div class="footer-bottom">
+            <div class="footer-bottom-container">
+                <p>&copy; 2025 АРТАЛЕКС ГАЗ ГРУПП АВТО. Все права защищены.</p>
+            </div>
+        </div>
+    </footer>
+    <script src="js/api.js"></script>
+    <script src="js/product.js"></script>
+    <script src="js/modules/gallery.js"></script>
+    <script src="js/modules/fullscreen.js"></script>
+    <script src="js/modules/burger-menu.js"></script>
+    <script src="js/modules/cart.js"></script>
+    <script src="js/modules/city-selector.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Получаем ID товара из URL
+            const urlParams = new URLSearchParams(window.location.search);
+            const productId = urlParams.get('id');
+            
+            if (productId) {
+                loadProduct(productId);
+            } else {
+                document.getElementById('CardProduct').innerHTML = 
+                    '<p class="error">Товар не найден</p>';
+            }
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,130 @@
+/* ============================ РАЗДЕЛ ТОВАРОВ ============================ */
+.products-section {
+    padding: 40px 20px;
+    max-width: 90%;
+    margin: 0 auto;
+    scroll-margin-top: 100px; /* Для якорных ссылок */
+}
+
+.products-section h2 {
+    text-align: center;
+    margin-bottom: 30px;
+    font-size: 2rem;
+    color: #1a3e72;
+}
+
+.products-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 30px;
+    margin: 0 auto;
+    justify-content: center;
+    max-width: 100%;
+}
+
+.product-block {
+    width: calc(16.666% - 25px); /* 6 товаров в ряд */
+    min-width: 150px;
+    text-align: center;
+    border: 1px solid #ddd;
+    border-radius: 15px;
+    padding: 15px;
+    transition: transform 0.3s, box-shadow 0.3s;
+    cursor: pointer;
+    background-color: #f8f9fa;
+}
+
+.product-block:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+}
+
+.product-image {
+    width: 100%;
+    height: 180px;
+    object-fit: contain;
+    margin-bottom: 15px;
+    border: 1px solid #eee;
+    border-radius: 8px;
+    background-color: white;
+}
+
+.product-name {
+    font-weight: bold;
+    font-size: 16px;
+    margin-top: 10px;
+    color: #1a3e72;
+}
+
+.error {
+    color: #d9534f;
+    font-weight: bold;
+    padding: 20px;
+    background-color: #f8d7da;
+    border-radius: 5px;
+    margin: 10px 0;
+}
+
+/* ===== АДАПТИВНЫЕ СТИЛИ ТОВАРОВ ===== */
+@media (max-width: 1200px) {
+    .product-block {
+        width: calc(20% - 24px); /* 5 товаров в ряд */
+    }
+}
+
+@media (max-width: 992px) {
+    .product-block {
+        width: calc(25% - 22.5px); /* 4 товара в ряд */
+    }
+}
+
+@media (max-width: 768px) {
+    .products-section h2 {
+        font-size: 1.8rem;
+    }
+    
+    .product-block {
+        width: calc(33.333% - 20px); /* 3 товара в ряд */
+        padding: 10px;
+    }
+    
+    .product-image {
+        height: 140px;
+    }
+}
+
+@media (max-width: 576px) {
+    .product-block {
+        width: calc(50% - 15px); /* 2 товара в ряд */
+    }
+}
+
+@media (max-width: 480px) {
+    .products-section {
+        padding: 20px 10px;
+    }
+    
+    .products-section h2 {
+        font-size: 1.5rem;
+    }
+    
+    .products-container {
+        gap: 15px;
+    }
+    
+    .product-block {
+        width: calc(50% - 10px);
+        min-width: 120px;
+    }
+    
+    .product-image {
+        height: 100px;
+    }
+}
+
+@media (max-width: 360px) {
+    .product-block {
+        width: 100%; /* 1 товар в ряд */
+        max-width: 200px;
+    }
+}

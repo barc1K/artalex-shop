@@ -1,0 +1,121 @@
+/* ===== КАТЕГОРИИ ТОВАРОВ ===== */
+.categories-sidebar {
+    width: 300px;
+    flex-shrink: 0;
+}
+
+.categories-list {
+    background: #f8f9fa;
+    border-radius: 15px;
+    padding: 20px;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+}
+
+.category-section {
+    margin-bottom: 20px;
+}
+
+.category-section-title {
+    font-weight: bold;
+    color: #1a3e72;
+    margin-bottom: 10px;
+    padding: 12px 15px;
+    background: #e9ecef;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.category-section-title:hover {
+    background: #dee2e6;
+}
+
+.category-item {
+    padding: 12px 15px;
+    margin: 5px 0;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    border-left: 3px solid transparent;
+}
+
+.category-item:hover {
+    background: #e9ecef;
+}
+
+.category-item.active {
+    background: #1a3e72;
+    color: white;
+}
+
+.category-arrow {
+    transition: transform 0.3s ease;
+    font-size: 12px;
+    color: #666;
+}
+
+.category-subitems {
+    transition: all 0.3s ease;
+    overflow: hidden;
+    padding-left: 15px;
+}
+
+/* Улучшаем стили для подкатегорий */
+.category-subitem {
+    padding: 10px 15px;
+    margin: 3px 0;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    border-left: 2px solid transparent;
+    font-size: 14px;
+    background: #f8f9fa;
+}
+
+.category-subitem:hover {
+    background: #e9ecef;
+    transform: translateX(5px);
+}
+
+.category-subitem.active {
+    background: #1a3e72;
+    color: white;
+    transform: translateX(5px);
+}
+
+/* Анимация появления */
+@keyframes slideDown {
+    from {
+        opacity: 0;
+        max-height: 0;
+    }
+    to {
+        opacity: 1;
+        max-height: 500px;
+    }
+}
+
+.category-subitems[style*="display: block"] {
+    animation: slideDown 0.3s ease;
+}
+
+/* АДАПТИВНЫЕ СТИЛИ КАТАЛОГА */
+@media (max-width: 992px) {
+    .categories-sidebar {
+        width: 100%;
+    }
+    
+    .categories-list {
+        flex-wrap: wrap;
+        gap: 10px;
+    }
+    
+    .category-item {
+        flex: 1;
+        min-width: 150px;
+        text-align: center;
+    }
+}

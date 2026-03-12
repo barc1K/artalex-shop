@@ -1,0 +1,66 @@
+/* ============================ РАЗДЕЛ АДРЕСА И КАРТЫ ============================ */
+.address-section {
+    padding: 40px 20px;
+    max-width: 90%;
+    margin: 0 auto;
+    background-color: #f8f9fa;
+}
+
+.address-section h2 {
+    text-align: center;
+    margin-bottom: 30px;
+    font-size: 2rem;
+    color: #1a3e72;
+}
+
+.address-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 20px;
+}
+
+.address-text {
+    font-size: 1.2rem;
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.map-container {
+    width: 100%;
+    height: 700px;
+    border-radius: 15px;
+    overflow: hidden;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.map-container iframe {
+    width: 100%;
+    height: 100%;
+    border: none;
+}
+
+/* ===== АДАПТИВНЫЕ СТИЛИ АДРЕСА И КАРТЫ ===== */
+@media (max-width: 768px) {
+    .map-container {
+        height: 300px;
+    }
+}
+
+@media (max-width: 480px) {
+    .address-section h2 {
+        font-size: 1.5rem;
+    }
+    
+    .address-text {
+        font-size: 1rem;
+    }
+    
+    .address-section {
+        padding: 20px 10px;
+    }
+    
+    .map-container {
+        height: 250px;
+    }
+}

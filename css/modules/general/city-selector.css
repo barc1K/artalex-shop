@@ -1,0 +1,79 @@
+/* ============================ ВЫБОР ГОРОДА ============================ */
+.city-selector {
+    display: flex;
+    align-items: center;
+    margin-left: 0;
+    padding: 0 20px;
+    position: relative;
+}
+
+.city-selector i {
+    color: white;
+    margin-right: 8px;
+    font-size: 16px;
+    text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.8);
+}
+
+/* Стили для выпадающих списков городов */
+#citySelect, #citySelectMobile {
+    background: rgba(255, 255, 255, 0.2);
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    color: white;
+    font-weight: 500;
+    font-size: 17px;
+    cursor: pointer;
+    text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.8);
+    outline: none;
+    padding: 8px 30px 8px 15px;
+    border-radius: 20px;
+    appearance: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    transition: all 0.3s ease;
+    min-width: 180px;
+}
+
+#citySelect:hover, #citySelectMobile:hover {
+    background: rgba(255, 255, 255, 0.3);
+    border-color: rgba(255, 255, 255, 0.5);
+}
+
+#citySelect:focus, #citySelectMobile:focus {
+    background: rgba(255, 255, 255, 0.3);
+    border-color: rgba(255, 255, 255, 0.7);
+}
+
+/* Стрелка для выпадающего списка */
+.city-selector::after {
+    content: "\f078";
+    font-family: "Font Awesome 5 Free";
+    font-weight: 900;
+    position: absolute;
+    right: 30px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: white;
+    font-size: 12px;
+    pointer-events: none;
+}
+
+#citySelect option, #citySelectMobile option {
+    color: #333;
+    background: white;
+    padding: 8px;
+}
+
+/* Стили для мобильной версии выбора города */
+.mobile-nav .city-selector {
+    padding: 15px 20px;
+    margin-bottom: 10px;
+}
+
+.mobile-nav #citySelectMobile {
+    width: 100%;
+    background: rgba(255, 255, 255, 0.15);
+}
+
+.mobile-nav .city-selector::after {
+    right: 30px;
+}

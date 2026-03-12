@@ -1,0 +1,208 @@
+/* ============================ ПОДМЕНЮ БРЕНДОВ ============================ */
+.brands-menu-container {
+    max-width: 100%;
+    margin: 0 auto;
+    padding: 0 10px 15px;
+    display: flex;
+    justify-content: center;
+    background-color: rgba(26, 62, 114, 0.95);
+}
+
+.brands-menu {
+    display: flex;
+    gap: 20px;
+    justify-content: center;
+    width: 100%;
+    max-width: 88%;
+    flex-wrap: wrap;
+}
+
+.brand-item {
+    position: relative;
+}
+
+.brand-button {
+    background: rgba(255, 255, 255, 0.15);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    color: white;
+    padding: 8px 20px;
+    border-radius: 20px;
+    font-size: 16px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 120px;
+    text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.8);
+}
+
+.brand-button:hover {
+    background: rgba(255, 255, 255, 0.25);
+    border-color: rgba(255, 255, 255, 0.4);
+}
+
+.brand-button i {
+    margin-left: 5px;
+    font-size: 12px;
+    transition: transform 0.3s ease;
+}
+
+.brand-button.active i {
+    transform: rotate(180deg);
+}
+
+/* Выпадающее подменю для брендов */
+.brand-dropdown {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    background: white;
+    border-radius: 10px;
+    box-shadow: 0 5px 20px rgba(0, 0, 0, 0.2);
+    min-width: 250px;
+    z-index: 1001;
+    display: none;
+    margin-top: 5px;
+    overflow: hidden;
+}
+
+.brand-dropdown.active {
+    display: block;
+    animation: fadeIn 0.3s ease;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(-10px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+.brand-dropdown-header {
+    background-color: #1a3e72;
+    color: white;
+    padding: 15px 20px;
+    font-weight: 600;
+    font-size: 18px;
+}
+
+.brand-dropdown-content {
+    padding: 15px 0;
+    max-height: 300px;
+    overflow-y: auto;
+}
+
+.brand-dropdown-link {
+    display: block;
+    padding: 10px 20px;
+    color: #333;
+    text-decoration: none;
+    transition: all 0.3s ease;
+    border-left: 3px solid transparent;
+    font-size: 15px;
+}
+
+.brand-dropdown-link:hover {
+    background-color: #f8f9fa;
+    color: #1a3e72;
+    border-left-color: #1a3e72;
+    padding-left: 25px;
+}
+
+/* ===== АДАПТИВНЫЕ СТИЛИ ПОДМЕНЮ БРЕНДОВ ===== */
+
+/* Планшеты */
+@media (max-width: 992px) {
+    .brands-menu {
+        gap: 15px;
+        max-width: 95%;
+    }
+    
+    .brand-button {
+        min-width: 110px;
+        padding: 7px 15px;
+        font-size: 15px;
+    }
+    
+    .brand-dropdown {
+        min-width: 220px;
+    }
+}
+
+/* Мобильные устройства */
+@media (max-width: 768px) {
+    .brands-menu-container {
+        padding: 0 5px 10px;
+    }
+    
+    .brands-menu {
+        flex-direction: column;
+        gap: 10px;
+        align-items: center;
+    }
+    
+    .brand-item {
+        width: 100%;
+        max-width: 300px;
+    }
+    
+    .brand-button {
+        width: 100%;
+        padding: 10px 20px;
+    }
+    
+    .brand-dropdown {
+        position: fixed;
+        left: 50%;
+        transform: translateX(-50%);
+        width: 90vw;
+        max-width: 400px;
+    }
+}
+
+/* Маленькие экраны */
+@media (max-width: 480px) {
+    .brand-button {
+        font-size: 14px;
+        padding: 8px 15px;
+    }
+    
+    .brand-dropdown {
+        width: 95vw;
+    }
+    
+    .brand-dropdown-link {
+        padding: 8px 15px;
+        font-size: 14px;
+    }
+    
+    .brand-dropdown-link:hover {
+        padding-left: 20px;
+    }
+}
+
+/* Ландшафтная ориентация на планшетах */
+@media (max-width: 992px) and (orientation: landscape) {
+    .brands-menu {
+        flex-direction: row;
+        flex-wrap: wrap;
+        gap: 10px;
+    }
+    
+    .brand-item {
+        width: auto;
+        max-width: none;
+    }
+    
+    .brand-button {
+        min-width: 100px;
+        padding: 6px 12px;
+        font-size: 14px;
+    }
+}
+
+/* Для шапки при прокрутке */
+header.scrolled ~ .brands-menu-container {
+    padding-top: 0;
+    background-color: rgba(26, 62, 114, 1);
+}

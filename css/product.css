@@ -1,0 +1,30 @@
+/* ============================ ИМПОРТ МОДУЛЕЙ ============================ */
+@import url('modules/general/header.css');
+@import url('modules/general/navigation.css');
+@import url('modules/general/contacts.css');
+@import url('modules/general/city-selector.css');
+@import url('modules/general/search.css');
+@import url('modules/general/cart.css');
+@import url('modules/general/footer.css');
+@import url('modules/product/product-page.css');
+@import url('modules//product/fullscreen-viewer.css');
+
+/* ============================ ОБЩИЕ СТИЛИ ПРОДУКТА ============================ */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Arial', sans-serif;
+}
+
+body {
+    line-height: 1.6;
+    color: #333;
+    overflow-x: hidden;
+    margin: 0;
+    padding-top: 180px; /* Увеличен отступ для фиксированной шапки */
+}
+
+header {
+    background-color: rgba(26, 62, 114, 1);
+}

@@ -1,0 +1,7 @@
+1.При открытии страницы index.html запускается скрипт loadCatalog();
+2. Эта функция (loadCatalog()) находится в main.js от туда он вызывает функцию fetchProducts().
+3. Эта функция (fetchProducts()) находится в api.js так как там const response = await fetch(`${API_BASE_URL}/api/products`);
+4. Это (/api/products) находится в server.js где выполняется запрос SELECT * FROM products ORDER BY id
+5. Возращаем данные в api.js можно посмотреть (http://localhost:3000/api/products)
+6. Возращаем данные в main.js и там же создаеется вид карточки товара
+7. И уже этот вид добавляется в index.html
