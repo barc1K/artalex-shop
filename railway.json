@@ -5,7 +5,7 @@
   },
   "deploy": {
     "startCommand": "cd server && node server.js",
-    "healthcheckPath": "/",
+    "healthcheckPath": "/api/productslimit",  // 👈 измените на это
     "restartPolicyType": "ON_FAILURE",
     "numReplicas": 1
   }
