@@ -1,12 +1,14 @@
 FROM node:18-alpine
 
-WORKDIR /app
+WORKDIR /app/server
 
-COPY server/package*.json ./server/
-RUN cd server && npm install
+COPY server/package*.json ./
+RUN npm install
 
-COPY . .
+COPY server/ ./
+COPY admin/ ../admin/
+COPY *.html ../
 
 EXPOSE 3000
 
-CMD cd server && node server.js
+CMD ["node", "server.js"]
