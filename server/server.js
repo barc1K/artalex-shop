@@ -18,7 +18,12 @@ const PORT = process.env.PORT || 3000;
 app.use(cors()); // Разрешаем запросы с других доменов
 app.use(express.json()); // Для обработки JSON данных
 
-// Настройка подключения к PostgreSQL
+console.log('🔥🔥🔥 СЕРВЕР ЗАПУСКАЕТСЯ 🔥🔥🔥');
+console.log('Текущая директория:', process.cwd());
+console.log('PORT:', process.env.PORT);
+console.log('DATABASE_URL задан:', !!process.env.DATABASE_URL);
+
+// И сразу после создания pool добавьте:
 const pool = new Pool({
     connectionString: process.env.DATABASE_URL,
     ssl: {
@@ -26,7 +31,17 @@ const pool = new Pool({
     }
 });
 
-console.log('🔌 Подключение к БД:', process.env.DATABASE_URL ? 'URL задан' : 'URL НЕ ЗАДАН!');
+console.log('✅ Pool создан, пытаемся подключиться...');
+
+pool.connect((err, client, release) => {
+    if (err) {
+        console.error('❌ ОШИБКА подключения к БД:', err.message);
+        console.error('Полная ошибка:', err);
+    } else {
+        console.log('✅ УСПЕШНОЕ подключение к БД');
+        release();
+    }
+});
 
 // Проверка подключения к базе данных
 pool.connect((err, client, release) => {
