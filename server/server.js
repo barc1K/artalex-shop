@@ -20,12 +20,13 @@ app.use(express.json()); // Для обработки JSON данных
 
 // Настройка подключения к PostgreSQL
 const pool = new Pool({
-    user: 'postgres', // Ваше имя пользователя
-    host: 'localhost',
-    database: 'shop_db', // Имя вашей базы данных
-    password: 'Ra123456', // Ваш пароль от PostgreSQL
-    port: 5432, // Порт PostgreSQL (по умолчанию 5432)
+    connectionString: process.env.DATABASE_URL,
+    ssl: {
+        rejectUnauthorized: false
+    }
 });
+
+console.log('🔌 Подключение к БД:', process.env.DATABASE_URL ? 'URL задан' : 'URL НЕ ЗАДАН!');
 
 // Проверка подключения к базе данных
 pool.connect((err, client, release) => {
